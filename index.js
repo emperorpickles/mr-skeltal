@@ -24,12 +24,12 @@ client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	// doot();
 	var handle = setInterval(function() {
-		var rand = getRandom(0, 10);
+		var rand = getRandom(1, 4);
 		console.log(rand);
-		if (rand == 10) {
+		if (rand == 4) {
 			doot();
 		}
-	}, 1000 * 60 * 30);
+	}, 1000 * 60 * 15);
 });
 
 client.on('message', async msg => {
