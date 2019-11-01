@@ -7,34 +7,21 @@ function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function play(connection, file) {
-	return new Promise(resolve => {
-		let dispatcher = connection.playFile(file)
-		dispatcher.on('end', function() {
-			resolve(true)
-		})
-	})
-}
-
 async function doot() {
-	client.channels.forEach(async (channel) => {
-		if (channel.type == 'voice' && channel.members.size > 0) {
-			try {
-				const joined = await channel.join().then(async (connection) => {
-					// play(connection, './doot.mp3').then(value => {
-					// 	if (value == true) {
-					// 		channel.leave()
-					// 	}
-					// })
-					let dispatcher = await connection.playFile('./doot.mp3')
-					await dispatcher.on('end', function() {
-						channel.leave()
-					})
+	var visted = new Array()
+	await client.channels.forEach(channel => {
+		if (channel.type == 'voice' && channel.members.size > 0 && visted.includes(channel.id) == false) {
+			console.log('Joining ' + channel.name)
+			channel.join().then(async connection => {
+				const dispatcher = await connection.playFile('./doot.mp3')
+				await dispatcher.on('end', async function() {
+					await channel.leave()
 				})
-			} catch (err) {
-				console.error(err.message)
-			}
+			}).catch (err => {
+				console.error(err)
+			})
 		}
+		visted.push(channel.id)
 	})
 }
 
@@ -76,4 +63,4 @@ client.on('message', async msg => {
 // 	}
 // })
 
-client.login(process.env.BOT_TOKEN_DEV)
+client.login(process.env.BOT_TOKEN)

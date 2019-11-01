@@ -1,1 +1,1 @@
-worker: node index.js
+worker: echo "BOT_TOKEN=NjM4OTc1Mzg4ODAxODI2ODE3.XbkjAA.RXTXG418VFjYRMVVGxm4kwRiiEA" >> .env && node index.js
