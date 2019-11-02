@@ -7,13 +7,13 @@ function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-async function doot(file) {
+async function doot(file, vol) {
 	var visted = new Array()
 	await client.channels.forEach(channel => {
 		if (channel.type == 'voice' && channel.members.size > 0 && visted.includes(channel.id) == false) {
 			console.log('Joining ' + channel.name)
 			channel.join().then(async connection => {
-				const dispatcher = await connection.playFile(file)
+				const dispatcher = await connection.playFile(file, {volume: vol})
 				await dispatcher.on('end', async function() {
 					await channel.leave()
 				})
@@ -39,13 +39,13 @@ client.on('ready', () => {
 
 client.on('message', async msg => {
 	if (String(msg.content).indexOf('doot') > -1) {
-		doot('./doot.mp3')
+		doot('./doot.mp3', 1)
 	}
 	else if (String(msg.content).indexOf('johnnyboi') > -1) {
-		doot('./dootcena.mp3')
+		doot('./dootcena.mp3', 1)
 	}
 	else if (String(msg.content).indexOf('spoopy') > -1) {
-		doot('./spooky-scary-skullingtumpets.mp3')
+		doot('./spooky-scary-skullingtumpets.mp3', 0.2)
 	}
 })
 
