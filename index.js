@@ -42,7 +42,10 @@ client.on('message', async msg => {
 		doot('./doot.mp3')
 	}
 	else if (String(msg.content).indexOf('johnnyboi') > -1) {
-		doot('./john-cena.mp3')
+		doot('./dootcena.mp3')
+	}
+	else if (String(msg.content).indexOf('spoopy') > -1) {
+		doot('./spooky-scary-skullingtumpets.mp3')
 	}
 })
 
