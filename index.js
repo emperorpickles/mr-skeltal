@@ -7,13 +7,13 @@ function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-async function doot() {
+async function doot(file) {
 	var visted = new Array()
 	await client.channels.forEach(channel => {
 		if (channel.type == 'voice' && channel.members.size > 0 && visted.includes(channel.id) == false) {
 			console.log('Joining ' + channel.name)
 			channel.join().then(async connection => {
-				const dispatcher = await connection.playFile('./doot.mp3')
+				const dispatcher = await connection.playFile(file)
 				await dispatcher.on('end', async function() {
 					await channel.leave()
 				})
@@ -32,14 +32,17 @@ client.on('ready', () => {
 		var rand = getRandom(1, 4)
 		console.log(rand)
 		if (rand == 4) {
-			doot()
+			doot('./doot.mp3')
 		}
 	}, 1000 * 60 * 15)
 })
 
 client.on('message', async msg => {
 	if (String(msg.content).indexOf('doot') > -1) {
-		doot()
+		doot('./doot.mp3')
+	}
+	else if (String(msg.content).indexOf('johnnyboi') > -1) {
+		doot('./john-cena.mp3')
 	}
 })
 
