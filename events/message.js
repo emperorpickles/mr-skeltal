@@ -2,11 +2,13 @@ const doot = require('../commands/doot')
 const embed = require('../commands/embed')
 
 module.exports = (client, message) => {
+    const command = String(message.content).toLowerCase()
+
     if (message.author.bot) return
-
-	const command = String(message.content).toLowerCase()
-
-	if (command.includes('doot')) {
+    else if (!message.member.voiceChannel) {
+        message.reply('You need to be in a voice channel :(')
+    }
+	else if (command.includes('doot')) {
         return doot(message, './media/doot.mp3')
     }
     else if (command.includes('johnnyboi')) {
