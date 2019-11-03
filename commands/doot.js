@@ -5,11 +5,24 @@ module.exports = (message, file, vol) => {
         queue: []
     }
     var server = servers[message.guild.id]
-    server.queue.push({file: file, vol: (vol || 1)})
-    if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function (connection) {
+    if (!message.guild.voiceConnection && message.member.voiceChannel) {
         console.log(`Joining \"${message.guild.name}/${message.member.voiceChannel.name}\" & Playing \"${file}\"`)
-        qPlay(connection, message)
-    })
+        server.queue.push({file: file, vol: (vol || 1)})
+        message.member.voiceChannel.join().then(function (connection) {
+            qPlay(connection, message)
+        })
+    }
+    else {
+        message.guild.channels.forEach(channel => {
+            if (channel.type == 'voice' && channel.members.size > 0 && !message.guild.voiceConnection) {
+                console.log(`Joining \"${message.guild.name}/${channel.name}\" & Playing \"${file}\"`)
+                server.queue.push({file: file, vol: (vol || 1)})
+                channel.join().then(function (connection) {
+                    qPlay(connection, message)
+                })
+            }
+        })
+    }
 }
 
 function qPlay(connection, message) {

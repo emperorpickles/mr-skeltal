@@ -5,9 +5,9 @@ module.exports = (client, message) => {
     const command = String(message.content).toLowerCase()
 
     if (message.author.bot) return
-    else if (!message.member.voiceChannel) {
-        message.reply('You need to be in a voice channel :(')
-    }
+    // else if (!message.member.voiceChannel) {
+    //     message.reply('You need to be in a voice channel :(')
+    // }
 	else if (command.includes('doot')) {
         return doot(message, './media/doot.mp3')
     }
