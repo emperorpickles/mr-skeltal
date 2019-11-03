@@ -6,6 +6,7 @@ module.exports = (message, file, vol) => {
     }
     var server = servers[message.guild.id]
     server.queue.push({file: file, vol: (vol || 1)})
+    console.log(`Joining \"${message.guild.name}/${message.member.voiceChannel.name}\" & Playing \"${file}\"`)
     if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function (connection) {
         qPlay(connection, message)
     })

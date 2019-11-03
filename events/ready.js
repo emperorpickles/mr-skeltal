@@ -8,7 +8,7 @@ module.exports = (client, message) => {
     console.log(`Logged in as ${client.user.tag}!`)
 	var handle = setInterval(function() {
 		var rand = getRandom(1, 4)
-		console.log(rand)
+		console.log('Rolled a ' + rand)
 		if (rand == 4) {
 			dootAll('./media/doot.mp3', 1)
 		}
