@@ -67,6 +67,7 @@ module.exports = {
         if (command == 'spoopy') {
             embed(message, 'https://media1.tenor.com/images/a369655bae5b5f8e8de548e631e80d19/tenor.gif?itemid=14585469', 'Let\'s get spoopy ;)')
                 .then(msg => { msg.delete(2200 * 60) })
+                .catch(console.error)
         }
 
         const dispatcher = serverQueue.connection.playFile(file.path, {volume: file.vol})
