@@ -18,9 +18,10 @@ module.exports = {
                 await message.channel.fetchMessages().then(messages => {
                     const selfMessages = messages.filter(msg => msg.author.bot && msg.author.username.includes('Mr. Skeltal'))
                     message.channel.bulkDelete(selfMessages)
-                })
+                }).catch(console.error)
                 await message.reply('Your loss, friendo')
                     .then(msg => { msg.delete(2500) })
+                    .catch(console.error)
             } catch (err) {
                 console.error(err)
                 message.channel.send('I don\'t have permission to delete some messages!')

@@ -17,7 +17,7 @@ module.exports = {
                             await dispatcher.on('end', function() {
                                 channel.leave()
                             })
-                        })
+                        }).catch(console.error)
                     }, timer)
                     timer = timer + time
                 }
