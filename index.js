@@ -34,7 +34,11 @@ client.on('message', async message => {
 	const commandName = args.shift().toLowerCase()
 	const command = client.commands.get(commandName)
 
+<<<<<<< HEAD
 	if (message.author.bot || !command) return
+=======
+	if (message.author.bot) return
+>>>>>>> ae509eb9b73918e0966dc59d8472181636d4dea1
 	try {
 		command.execute(message)
 	} catch (err) { console.error(err) }
