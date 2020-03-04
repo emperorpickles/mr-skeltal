@@ -4,17 +4,18 @@ module.exports = {
     dootAll: function (client, file) {
 		console.log('Dooting All')
         let timer = 500
+        // Get length of media file
         ffmpeg.ffprobe(file, function(err, metadata) {
             const time = metadata.format.duration * 1000
-    
             var visted = new Array()
-            client.channels.forEach(async (channel) => {
+
+            client.channels.forEach((channel) => {
                 if (channel.type == 'voice' && channel.members.size > 0 && visted.includes(channel.id) == false) {
-                    setTimeout(async function() {
-                        await channel.join().then(async (connection) => {
-                            console.log('Joining ' + channel.name + ' & Playing ' + file)
-                            let dispatcher = await connection.playFile(file)
-                            await dispatcher.on('end', function() {
+                    setTimeout(function() {
+                        channel.join().then((connection) => {
+                            console.log(`Joining "${channel.guild}/${channel.name}" & Playing "${file}"`)
+                            let dispatcher = connection.playFile(file)
+                            dispatcher.on('end', function() {
                                 channel.leave()
                             })
                         }).catch(console.error)

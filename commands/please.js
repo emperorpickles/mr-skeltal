@@ -9,11 +9,16 @@ module.exports = {
             return message.reply('You have to be in a voice channel')
         }
         else if (args[1] === 'leave') {
+            // Clear the current command queue and leave active voice channel
             try {
-                serverQueue.commands = []
-                serverQueue.connection.dispatcher.end()
+                if (serverQueue) {
+                    serverQueue.commands = []
+                    serverQueue.connection.dispatcher.end()
+                    console.log(`Asked to leave "${message.guild}/${message.channel.name}"`)
+                }
             } catch (err) { console.error(err) }
 
+            // Delete any messages from bot and then say goodbye
             try {
                 await message.channel.fetchMessages().then(messages => {
                     const selfMessages = messages.filter(msg => msg.author.bot && msg.author.username.includes('Mr. Skeltal'))
@@ -27,5 +32,6 @@ module.exports = {
                 message.channel.send('I don\'t have permission to delete some messages!')
             }
         }
+        else return
     }
 }

@@ -19,6 +19,7 @@ console.log(client.commands)
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`)
+	console.log(`Connected to ${client.guilds.size} guilds`)
 
 	var handle = setInterval(function() {
 		var rand = getRandom(1, 4)
@@ -26,7 +27,7 @@ client.on('ready', () => {
 		if (rand == 4) {
 			forAll.dootAll(client, './media/doot.mp3')
 		}
-    }, 1000 * 60 * 15)
+    }, 1000 * 60 * 20)
 })
 
 client.on('message', async message => {

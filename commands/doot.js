@@ -1,25 +1,37 @@
 const embed = require('../functions/embed')
 
+// Assign file paths for each possible command argument
+const fileRef = [
+    { name: 'doot', path: './media/doot.mp3' },
+    { name: 'spoopy', path: './media/spooky-scary-skullingtumpets.mp3', vol: 0.2 },
+    { name: 'johnnyboi', path: './media/dootcena.mp3'}
+]
+
 module.exports = {
     name: 'doot',
     description: 'doot doot',
     async execute(message) {
         const args = message.content.split(' ')
+        const command = args[1]
         const queue = message.client.queue
         const serverQueue = message.client.queue.get(message.guild.id)
 
+        // Check if command args are valid
+        if (!fileRef.find(o => o.name === command)) return
+
+        // Try to join users voice channel, if not in a channel find random active channel
         var voiceChannel = message.member.voiceChannel
         if (!voiceChannel) {
             voiceChannel = this.findChannel(message)
             if (!voiceChannel) return
         }
+        // Check if the bot has permission to join voice channels
         const permissions = voiceChannel.permissionsFor(message.client.user)
         if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
             return message.channel.send('I need permission to join and speak in your channel!')
         }
 
-        const command = args[1]
-
+        // Create command queue if it doesn't exist, otherwise add command to queue
         if (!serverQueue) {
             const queueConstruct = {
                 textChannel: message.channel,
@@ -51,11 +63,6 @@ module.exports = {
         const guild = message.guild
         const serverQueue = queue.get(message.guild.id)
 
-        const fileRef = [
-            { name: 'doot', path: './media/doot.mp3' },
-            { name: 'spoopy', path: './media/spooky-scary-skullingtumpets.mp3', vol: 0.2 },
-            { name: 'johnnyboi', path: './media/dootcena.mp3'}
-        ]
         const file = fileRef.find(o => o.name === command)
 
         if (!file) {
@@ -72,7 +79,7 @@ module.exports = {
 
         const dispatcher = serverQueue.connection.playFile(file.path, {volume: file.vol})
             .on('end', () => {
-                console.log('dooted!')
+                console.log(`dooted! (Played "${file.name}" in "${guild}/${message.channel.name}")`)
                 serverQueue.commands.shift()
                 this.play(message, serverQueue.commands[0])
             })
