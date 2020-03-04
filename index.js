@@ -5,9 +5,12 @@ const forAll = require('./functions/forAll')
 const fs = require('fs')
 const Discord = require('discord.js')
 const Client = require('./client/Client')
+const DBL = require('dblapi.js')
 
 const client = new Client()
 client.commands = new Discord.Collection()
+
+const dbl = new DBL(process.env.TOPGG_TOKEN, client)
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 
@@ -20,6 +23,10 @@ console.log(client.commands)
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`)
 	console.log(`Connected to ${client.guilds.size} guilds`)
+
+	setInterval(() => {
+		dbl.postStats(client.guilds.size)
+	}, 1000 * 60 * 30)
 
 	var handle = setInterval(function() {
 		var rand = getRandom(1, 4)
