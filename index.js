@@ -34,7 +34,7 @@ client.on('message', async message => {
 	const commandName = args.shift().toLowerCase()
 	const command = client.commands.get(commandName)
 
-	if (message.author.bot) return
+	if (message.author.bot || !command) return
 	try {
 		command.execute(message)
 	} catch (err) { console.error(err) }
